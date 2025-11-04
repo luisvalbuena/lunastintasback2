@@ -1,6 +1,6 @@
 import express from 'express';
 import Reserva from '../models/Reserva.js';
-import { ensureLoggedIn } from '../middleware/AuthMiddleware.js';
+import { ensureLoggedIn } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
