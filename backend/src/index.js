@@ -18,11 +18,19 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "supersecret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: isProd,       // ✅ cookies solo HTTPS en prod
+      sameSite: isProd ? "none" : "lax", // ✅ permitir cross-domain
+      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 días
+    }
+  })
+);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/reservas', reservasRoutes);
