@@ -18,6 +18,8 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+const isProd = process.env.NODE_ENV === "production";
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "supersecret",
@@ -25,9 +27,9 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: isProd,       // ✅ cookies solo HTTPS en prod
-      sameSite: isProd ? "none" : "lax", // ✅ permitir cross-domain
-      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 días
+      secure: isProd,  // HTTPS en prod
+      sameSite: isProd ? "none" : "lax", 
+      maxAge: 1000 * 60 * 60 * 24 * 7
     }
   })
 );
